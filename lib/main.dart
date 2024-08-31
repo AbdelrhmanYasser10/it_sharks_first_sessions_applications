@@ -211,7 +211,8 @@ class _BMIAppState extends State<BMIApp> {
 
 class ResultScreen extends StatelessWidget {
   final double result;
-  const ResultScreen({Key? key , required this.result}) : super(key: key);
+
+  const ResultScreen({Key? key, required this.result}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -224,12 +225,50 @@ class ResultScreen extends StatelessWidget {
             Icons.arrow_back_ios,
             color: Colors.white,
           ),
-          onPressed: (){
+          onPressed: () {
             Navigator.pop(context);
           },
         ),
       ),
+      body: Column(
+        children: [
+          resultText(),
+        ],
+      ),
     );
+  }
+
+  Text resultText() {
+    if (result < 18.5) {
+      return Text(
+        "UNDER WEIGHT",
+        style: TextStyle(
+            color: Colors.red,
+            fontWeight: FontWeight.bold,
+            fontSize: 24.0
+        ),
+      );
+    }
+    else if (result >= 18.5 && result <= 24.9) {
+      return Text(
+        "NORMAL",
+        style: TextStyle(
+            color: Colors.green,
+            fontWeight: FontWeight.bold,
+            fontSize: 24.0
+        ),
+      );
+    }
+    else {
+      return Text(
+        "OVER WEIGHT",
+        style: TextStyle(
+            color: Colors.red,
+            fontWeight: FontWeight.bold,
+            fontSize: 24.0
+        ),
+      );
+    }
   }
 }
 

@@ -1,7 +1,7 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 
 void main() {
+
   runApp(const MyApp());
 }
 
@@ -12,240 +12,252 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: StackExample(),
+      home: BMIApp(),
     );
   }
 }
 
-// 30 - 8 - 2024
-List<String> images = [
-  "https://static.vecteezy.com/system/resources/thumbnails/024/179/673/small_2x/pure-blue-sky-white-clouds-the-strong-light-through-the-clouds-shines-straight-on-the-endless-sea-of-white-tulip-flowers-ai-generative-photo.jpg",
-  "https://static.vecteezy.com/system/resources/thumbnails/024/179/673/small_2x/pure-blue-sky-white-clouds-the-strong-light-through-the-clouds-shines-straight-on-the-endless-sea-of-white-tulip-flowers-ai-generative-photo.jpg",
-  "https://static.vecteezy.com/system/resources/thumbnails/024/179/673/small_2x/pure-blue-sky-white-clouds-the-strong-light-through-the-clouds-shines-straight-on-the-endless-sea-of-white-tulip-flowers-ai-generative-photo.jpg",
-  "https://static.vecteezy.com/system/resources/thumbnails/024/179/673/small_2x/pure-blue-sky-white-clouds-the-strong-light-through-the-clouds-shines-straight-on-the-endless-sea-of-white-tulip-flowers-ai-generative-photo.jpg",
-  "https://static.vecteezy.com/system/resources/thumbnails/024/179/673/small_2x/pure-blue-sky-white-clouds-the-strong-light-through-the-clouds-shines-straight-on-the-endless-sea-of-white-tulip-flowers-ai-generative-photo.jpg",
-  "https://static.vecteezy.com/system/resources/thumbnails/024/179/673/small_2x/pure-blue-sky-white-clouds-the-strong-light-through-the-clouds-shines-straight-on-the-endless-sea-of-white-tulip-flowers-ai-generative-photo.jpg",
-  "https://static.vecteezy.com/system/resources/thumbnails/024/179/673/small_2x/pure-blue-sky-white-clouds-the-strong-light-through-the-clouds-shines-straight-on-the-endless-sea-of-white-tulip-flowers-ai-generative-photo.jpg",
-  "https://static.vecteezy.com/system/resources/thumbnails/024/179/673/small_2x/pure-blue-sky-white-clouds-the-strong-light-through-the-clouds-shines-straight-on-the-endless-sea-of-white-tulip-flowers-ai-generative-photo.jpg",
-  "https://static.vecteezy.com/system/resources/thumbnails/024/179/673/small_2x/pure-blue-sky-white-clouds-the-strong-light-through-the-clouds-shines-straight-on-the-endless-sea-of-white-tulip-flowers-ai-generative-photo.jpg",
-  "https://static.vecteezy.com/system/resources/thumbnails/024/179/673/small_2x/pure-blue-sky-white-clouds-the-strong-light-through-the-clouds-shines-straight-on-the-endless-sea-of-white-tulip-flowers-ai-generative-photo.jpg",
-  "https://static.vecteezy.com/system/resources/thumbnails/024/179/673/small_2x/pure-blue-sky-white-clouds-the-strong-light-through-the-clouds-shines-straight-on-the-endless-sea-of-white-tulip-flowers-ai-generative-photo.jpg",
-  "https://static.vecteezy.com/system/resources/thumbnails/024/179/673/small_2x/pure-blue-sky-white-clouds-the-strong-light-through-the-clouds-shines-straight-on-the-endless-sea-of-white-tulip-flowers-ai-generative-photo.jpg",
-  "https://static.vecteezy.com/system/resources/thumbnails/024/179/673/small_2x/pure-blue-sky-white-clouds-the-strong-light-through-the-clouds-shines-straight-on-the-endless-sea-of-white-tulip-flowers-ai-generative-photo.jpg",
-  "https://static.vecteezy.com/system/resources/thumbnails/024/179/673/small_2x/pure-blue-sky-white-clouds-the-strong-light-through-the-clouds-shines-straight-on-the-endless-sea-of-white-tulip-flowers-ai-generative-photo.jpg",
-  "https://static.vecteezy.com/system/resources/thumbnails/024/179/673/small_2x/pure-blue-sky-white-clouds-the-strong-light-through-the-clouds-shines-straight-on-the-endless-sea-of-white-tulip-flowers-ai-generative-photo.jpg",
-  "https://static.vecteezy.com/system/resources/thumbnails/024/179/673/small_2x/pure-blue-sky-white-clouds-the-strong-light-through-the-clouds-shines-straight-on-the-endless-sea-of-white-tulip-flowers-ai-generative-photo.jpg",
-  "https://static.vecteezy.com/system/resources/thumbnails/024/179/673/small_2x/pure-blue-sky-white-clouds-the-strong-light-through-the-clouds-shines-straight-on-the-endless-sea-of-white-tulip-flowers-ai-generative-photo.jpg",
-  "https://static.vecteezy.com/system/resources/thumbnails/024/179/673/small_2x/pure-blue-sky-white-clouds-the-strong-light-through-the-clouds-shines-straight-on-the-endless-sea-of-white-tulip-flowers-ai-generative-photo.jpg",
-  "https://static.vecteezy.com/system/resources/thumbnails/024/179/673/small_2x/pure-blue-sky-white-clouds-the-strong-light-through-the-clouds-shines-straight-on-the-endless-sea-of-white-tulip-flowers-ai-generative-photo.jpg",
-  "https://static.vecteezy.com/system/resources/thumbnails/024/179/673/small_2x/pure-blue-sky-white-clouds-the-strong-light-through-the-clouds-shines-straight-on-the-endless-sea-of-white-tulip-flowers-ai-generative-photo.jpg",
-  "https://static.vecteezy.com/system/resources/thumbnails/024/179/673/small_2x/pure-blue-sky-white-clouds-the-strong-light-through-the-clouds-shines-straight-on-the-endless-sea-of-white-tulip-flowers-ai-generative-photo.jpg",
-  "https://static.vecteezy.com/system/resources/thumbnails/024/179/673/small_2x/pure-blue-sky-white-clouds-the-strong-light-through-the-clouds-shines-straight-on-the-endless-sea-of-white-tulip-flowers-ai-generative-photo.jpg",
-  "https://static.vecteezy.com/system/resources/thumbnails/024/179/673/small_2x/pure-blue-sky-white-clouds-the-strong-light-through-the-clouds-shines-straight-on-the-endless-sea-of-white-tulip-flowers-ai-generative-photo.jpg",
-  "https://static.vecteezy.com/system/resources/thumbnails/024/179/673/small_2x/pure-blue-sky-white-clouds-the-strong-light-through-the-clouds-shines-straight-on-the-endless-sea-of-white-tulip-flowers-ai-generative-photo.jpg",
-  "https://static.vecteezy.com/system/resources/thumbnails/024/179/673/small_2x/pure-blue-sky-white-clouds-the-strong-light-through-the-clouds-shines-straight-on-the-endless-sea-of-white-tulip-flowers-ai-generative-photo.jpg",
-];
+class BMIApp extends StatefulWidget {
+  const BMIApp({Key? key}) : super(key: key);
 
-List<String> names = [
-  "Mohamed",
-  "Abdelrahman",
-  "Steven",
-  "Mahmoud",
-  "Mahmoud",
-  "Mahmoud",
-  "Mahmoud",
-  "Mahmoud",
-  "Mahmoud",
-  "Mahmoud",
-  "Mahmoud",
-  "Mahmoud",
-  "Mahmoud",
-  "Mahmoud",
-  "Mahmoud",
-  "Mahmoud",
-  "Mahmoud",
-  "Mahmoud",
-  "Mahmoud",
-  "Mahmoud",
-  "Mahmoud",
-  "Mahmoud",
-  "Mahmoud",
-  "Mahmoud",
-  "Mahmoud",
-];
-class ListViewExample extends StatelessWidget {
-  const ListViewExample({Key? key}) : super(key: key);
+  @override
+  State<BMIApp> createState() => _BMIAppState();
+}
 
+class _BMIAppState extends State<BMIApp> {
+  bool isMale = true;
+  int height = 120;
+  int weight = 70;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.deepPurple.shade900,
       appBar: AppBar(
-        backgroundColor: Colors.green,
-        title: Text(
-          "IT-Sharks Flutter",
+        backgroundColor: Colors.deepPurple.shade900,
+        title: const Text(
+          "BMI Calculator",
           style: TextStyle(
-            color: Colors.white
+            color: Colors.white,
           ),
         ),
         centerTitle: true,
       ),
-      body: ListView.separated(
-          itemBuilder: (context, index) {
-            return contactCard(
-                image: images[index],
-                name: names[index],
-            );
-          },
-          separatorBuilder: (context, index) {
-          return Divider();
-          },
-          itemCount: names.length,
-      ),
-    );
-  }
-
-  Padding contactCard({
-  required String image,
-  required String name,
-}){
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
+      body: Column(
         children: [
-          CircleAvatar(
-            radius: 35,
-            backgroundImage: NetworkImage(
-                image
-            ),
+          Expanded(
+            flex: 3,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: genderCard(
+                      imageLink: "assets/images/male.png",
+                      text: "MALE",
+                      function: () {
+                        setState(() {
+                          isMale = true;
+                        });
+                      },
+                      activeBoolean: isMale,
+                    ),
+                  ),
+                  Expanded(
+                    child: genderCard(
+                        imageLink: "assets/images/female.png",
+                        text: "FEMALE",
+                      function: () {
+                        setState(() {
+                          isMale = false;
+                        });
+                      },
+                      activeBoolean: !isMale,
+                    ),
+                  ),
+                ],
+              ),
           ),
-          SizedBox(
-            width: 10.0,
+          Expanded(
+            flex: 4,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.deepPurple.shade500,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      const Text(
+                        "HEIGHT",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 24.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+
+                        children: [
+                          Text(
+                            "$height",
+                            style: TextStyle(
+                              fontSize: 48,
+                              color: Colors.white
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                top: 25.0,
+                            ),
+                            child: Text(
+                              "cm",
+                              style: TextStyle(
+                                  fontSize: 15,
+                                  color: Colors.white
+                              ),
+
+                            ),
+                          ),
+                        ],
+                      ),
+                      Slider(
+                        value: height.toDouble(),
+                        min: 100,
+                        max: 220,
+                        activeColor: Colors.white,
+                        onChanged: (value) {
+                          setState(() {
+                            height = value.toInt();
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
           ),
-          Text(
-            name,
+          Expanded(
+            flex: 3,
+              child: Container(
+                color: Colors.yellow,
+              ),
+          ),
+          Expanded(
+              child: MyButton(
+                text: "CALCULATE",
+                onPressed: (){
+                  double finalResult =  weight / ((height  / 100) * (height / 100));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context){
+                        return ResultScreen(
+                          result: finalResult,
+                        );
+                      }),
+                  );
+                },
+              ),
           ),
         ],
       ),
     );
   }
-}
 
-class StackExample extends StatelessWidget {
-  const StackExample({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SizedBox(
-        width: double.infinity,
-        height: double.infinity,
-        child: Stack(
-          children: [
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Container(
-                width: 300,
-                height: 500,
-                color: Colors.red,
-              ),
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                width: 200,
-                height: 200,
-                color: Colors.yellow,
-              ),
-            ),
-            Align(
-              alignment: Alignment.topRight,
-              child: Container(
-                width: 200,
-                height: 200,
-                color: Colors.green,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-
-
-// 30 - 8 - 2024
-class DiceScreen extends StatefulWidget {
-  const DiceScreen({Key? key}) : super(key: key);
-
-  @override
-  State<DiceScreen> createState() => _DiceScreenState();
-}
-
-class _DiceScreenState extends State<DiceScreen> {
-
-  List<String> allImages = [
-    "assets/images/dice1.png",
-    "assets/images/dice2.png",
-    "assets/images/dice3.png",
-    "assets/images/dice4.png",
-    "assets/images/dice5.png",
-    "assets/images/dice6.png",
-  ];
-  int index1 = 0;
-  int index2 = 0;
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.deepOrange,
-      appBar: AppBar(
-        backgroundColor: Colors.deepOrange,
-        title: const Text(
-          "Dice",
-          style: TextStyle(color: Colors.white),
-        ),
-        centerTitle: true,
-      ),
-      body: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: GestureDetector(
-                  onTap: (){
-                    index1 = Random().nextInt(6);
-                    index2 = Random().nextInt(6);
-                    setState(() {
-
-                    });
-                  },
-                  child: Image.asset(allImages[index1]),
-                ),
-              ),
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: GestureDetector(
-                  onTap: (){
-                    index1 = Random().nextInt(6);
-                    index2 = Random().nextInt(6);
-                    setState(() {
-
-                    });
-                  },
+  Widget genderCard({
+  required String imageLink,
+  required String text,
+  required VoidCallback function,
+  required bool activeBoolean,
+}){
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: GestureDetector(
+        onTap: function,
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            color:activeBoolean? Colors.deepPurple.shade50 : Colors.deepPurple.shade500,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              children: [
+                Expanded(
                   child: Image.asset(
-                    allImages[index2],
+                    imageLink,
+                    color:activeBoolean? Colors.black : Colors.white,
                   ),
                 ),
-              ),
+                 Text(
+                  text,
+                  style:TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color:activeBoolean? Colors.black : Colors.white,
+
+                  ),
+                )
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
   }
 }
+
+
+class ResultScreen extends StatelessWidget {
+  final double result;
+  const ResultScreen({Key? key , required this.result}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.deepPurple.shade900,
+      appBar: AppBar(
+        backgroundColor: Colors.deepPurple.shade900,
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: Colors.white,
+          ),
+          onPressed: (){
+            Navigator.pop(context);
+          },
+        ),
+      ),
+    );
+  }
+}
+
+
+
+class MyButton extends StatelessWidget {
+  final String text;
+  final VoidCallback onPressed;
+  const MyButton({super.key,required this.text,required this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+        color: Colors.deepPurple.shade500,
+        child: Center(
+          child: Text(
+            text,
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 24.0,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+

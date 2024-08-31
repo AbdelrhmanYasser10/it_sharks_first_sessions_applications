@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 void main() {
 
@@ -12,10 +14,180 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: BMIApp(),
+      home: MessangerScreen(),
     );
   }
 }
+
+
+class MessangerScreen extends StatelessWidget {
+  const MessangerScreen({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        leading: appBarButtons(
+          icon: Icons.menu
+        ),
+        title: Text(
+          "Chats"
+        ),
+        actions: [
+          appBarButtons(
+            icon: Icons.edit
+          ),
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
+          children: [
+            TextFormField(
+              decoration: InputDecoration(
+                hintText: "Search....",
+                prefixIcon: Icon(
+                  Icons.search,
+                ),
+                filled: true,
+                fillColor: Colors.grey.shade300,
+                border: OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.circular(25),
+                )
+              ),
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+            SizedBox(
+              height: 100,
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    return Column(
+                      children: [
+                        Stack(
+                          children: [
+                            CircleAvatar(
+                              radius: 35,
+                            ),
+                            Positioned(
+                              right:0,
+                              bottom:0,
+                              child: CircleAvatar(
+                                radius: 10,
+                                backgroundColor: Colors.green,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Text(
+                          "Username",
+                        ),
+                      ],
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return const SizedBox(
+                      width: 10.0,
+                    );
+                  },
+                  itemCount: 25,
+              ),
+            ),
+            Expanded(
+                child: ListView.separated(
+                    itemBuilder: (context, index) {
+                      return Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 35,
+                          ),
+
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Username",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18.0
+                                    ),
+                                  ),
+                                  Text(
+                                    "lastMessage" * 100,
+                                    overflow: TextOverflow.ellipsis,
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                          Text(
+                            "10:00am"
+                          )
+                        ],
+                      );
+                    },
+                    separatorBuilder:(context, index) {
+                      return const SizedBox(
+                        height: 10.0,
+                      );
+                    },
+                    itemCount: 100,
+                ),
+            ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: 0,
+        items: [
+          BottomNavigationBarItem(
+              icon: Icon(
+                Icons.home,
+              ),
+            label: "Home"
+          ),
+          BottomNavigationBarItem(
+              icon: Icon(
+                Icons.message,
+              ),
+            label: "messages"
+          ),
+          BottomNavigationBarItem(
+              icon: Icon(
+                Icons.call_sharp,
+              ),
+            label: "Calls"
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget appBarButtons({
+  required IconData icon,
+}){
+    return IconButton(
+      icon: CircleAvatar(
+        radius: 24,
+        backgroundColor: Colors.grey.shade300,
+        child:  Icon(
+          icon,
+        ),
+      ),
+      splashColor: Colors.grey,
+      onPressed: (){},
+    );
+  }
+}
+
+
+
 
 class BMIApp extends StatefulWidget {
   const BMIApp({Key? key}) : super(key: key);
@@ -208,7 +380,6 @@ class _BMIAppState extends State<BMIApp> {
   }
 }
 
-
 class ResultScreen extends StatelessWidget {
   final double result;
 
@@ -271,8 +442,6 @@ class ResultScreen extends StatelessWidget {
     }
   }
 }
-
-
 
 class MyButton extends StatelessWidget {
   final String text;

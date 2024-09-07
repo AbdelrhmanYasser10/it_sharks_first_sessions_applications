@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:it_sharks_first_app/database_helper/database_helper.dart';
+import 'package:it_sharks_first_app/model/note_model.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized(); // intialize some code natively
@@ -12,7 +13,11 @@ void main() async{
         "status": 0,
       },
   );*/
-  Map<String,dynamic> data = await DatabaseHelper.getSpecificRow(1);
-  print(data);
+  NoteModel note1 = NoteModel.fromMap(await DatabaseHelper.getSpecificRow(1));
+  note1.title = "title2";
+  note1.desc = "dhgushgudhgsigbdsbcxvisugdsgjnsdgushge";
+  note1.date = "8-9-2024";
+  await DatabaseHelper.updateData(note1.toMap(), note1.id!);
+  print(await DatabaseHelper.getSpecificRow(1));
 }
 

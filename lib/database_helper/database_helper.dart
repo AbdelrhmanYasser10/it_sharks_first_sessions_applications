@@ -50,4 +50,18 @@ abstract class DatabaseHelper{
     }
     return {};
   }
+
+  //3- UPDATE
+  static Future<void> updateData(Map<String,dynamic> data , int id) async{
+    if(_db != null){
+      await _db!.update("Note", data , where: "id = ?" , whereArgs: [id]);
+    }
+  }
+
+  //4 - DELETE
+  static Future<void> deleteData(int id) async{
+    if(_db != null) {
+      await _db!.delete("Note", where: "id = ?", whereArgs: [id]);
+    }
+  }
 }

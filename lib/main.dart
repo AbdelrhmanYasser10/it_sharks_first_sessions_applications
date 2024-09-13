@@ -1,23 +1,40 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:it_sharks_first_app/cubit/database_cubit.dart';
 import 'package:it_sharks_first_app/database_helper/database_helper.dart';
-import 'package:it_sharks_first_app/model/note_model.dart';
+import 'package:it_sharks_first_app/screens/home_screen.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // intialize some code natively
   await DatabaseHelper.initializeDatabase();
-  /*await DatabaseHelper.insertNewRow(
-      {
-        "title":"New note",
-        "desc" :"Some description for this note",
-        "date":"7-9-2024",
-        "status": 0,
-      },
-  );*/
-  NoteModel note1 = NoteModel.fromMap(await DatabaseHelper.getSpecificRow(1));
-  note1.title = "title2";
-  note1.desc = "dhgushgudhgsigbdsbcxvisugdsgjnsdgushge";
-  note1.date = "8-9-2024";
-  await DatabaseHelper.updateData(note1.toMap(), note1.id!);
-  print(await DatabaseHelper.getSpecificRow(1));
+  /*  //1 - get the specific query
+    // هجيب الrow اللي انا محتاجه يتعدل
+    Map<String ,dynamic> query1 = await DatabaseHelper.getSpecificRow(1);
+    // 2 - convert the map to object
+    // حول الماب اللي رجعت ل object عشان هيبقا سهل اعدل فيه
+    NoteModel note1 = NoteModel.fromMap(query1);
+    // 3 - تعديل في الobject اللي معايا
+    note1.title = "sdkhsuhgudsgs";
+    note1.desc = "fsdfsidgsdigsdjigd";
+    note1.status = 1;
+    // 4 - اعمل Save في الداتابيز
+    await DatabaseHelper.updateData(note1.toMap(), note1.id!);*/
+  runApp(const MyApp());
 }
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => DatabaseCubit()..getAllData(),
+      child: const MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: HomeScreen(),
+      ),
+    );
+  }
+}
+
 

@@ -2,7 +2,7 @@ import 'package:sqflite/sqflite.dart';
 
 abstract class DatabaseHelper{
   static Database? _db;
-
+  static String tableName = "Note";
   static Future<void> initializeDatabase()async{
     var databasesPath = await getDatabasesPath();
     String finalPath = "$databasesPath/mydatabase.db";
@@ -11,7 +11,7 @@ abstract class DatabaseHelper{
         version: 1,
       onCreate: (db, version)async {
         await db.execute(
-            'CREATE TABLE Note (id INTEGER PRIMARY KEY, title TEXT, desc TEXT, date TEXT, status INTEGER)');
+            'CREATE TABLE $tableName (id INTEGER PRIMARY KEY, title TEXT, desc TEXT, date TEXT, status INTEGER)');
           print("مبروك عملنا داتابيز (الفرحه)");
       },
       onOpen: (db) {
@@ -26,7 +26,7 @@ abstract class DatabaseHelper{
   // 1 - create => insert
   static Future<void> insertNewRow(Map<String,dynamic> map)async{
     if(_db != null){
-      await _db!.insert("Note", map);
+      await _db!.insert(tableName, map);
       print("inserted successfully");
     }
   }
@@ -34,7 +34,7 @@ abstract class DatabaseHelper{
   // SELECT * FROM Note Where id = 1
   static Future<List<Map<String,dynamic>>> getAllData()async{
     if(_db != null){
-      return await _db!.query("Note");
+      return await _db!.query(tableName);
     }
     return [];
   }
@@ -54,14 +54,14 @@ abstract class DatabaseHelper{
   //3- UPDATE
   static Future<void> updateData(Map<String,dynamic> data , int id) async{
     if(_db != null){
-      await _db!.update("Note", data , where: "id = ?" , whereArgs: [id]);
+      await _db!.update(tableName, data , where: "id = ?" , whereArgs: [id]);
     }
   }
 
   //4 - DELETE
   static Future<void> deleteData(int id) async{
     if(_db != null) {
-      await _db!.delete("Note", where: "id = ?", whereArgs: [id]);
+      await _db!.delete(tableName, where: "id = ?", whereArgs: [id]);
     }
   }
 }

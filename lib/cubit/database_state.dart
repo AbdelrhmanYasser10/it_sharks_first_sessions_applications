@@ -14,3 +14,8 @@ class GetAllNotesWithError extends DatabaseState{}
 class UpdateNoteLoading extends DatabaseState{}
 class UpdateNoteSuccessfully extends DatabaseState{}
 class UpdateNoteWithError extends DatabaseState{}
+
+//Delete states
+class DeleteNoteLoading extends DatabaseState{}
+class DeleteNoteSuccessfully extends DatabaseState{}
+class DeleteNoteWithError extends DatabaseState{}

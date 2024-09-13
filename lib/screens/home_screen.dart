@@ -65,6 +65,9 @@ class HomeScreen extends StatelessWidget {
                       ),
                     );
                   }
+                  if(state is DeleteNoteSuccessfully){
+                    DatabaseCubit.get(context).getAllData();
+                  }
                 },
                 builder: (context, state) {
                   var cubit = DatabaseCubit.get(context);

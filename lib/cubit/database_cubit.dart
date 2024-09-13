@@ -15,6 +15,7 @@ class DatabaseCubit extends Cubit<DatabaseState> {
   List<NoteModel> allNotes = [];
 
   void getAllData() async{
+    allNotes = [];
     emit(GetAllNotesLoading());
     try {
       List<Map<String, dynamic>> allData = await DatabaseHelper.getAllData();
@@ -40,7 +41,16 @@ class DatabaseCubit extends Cubit<DatabaseState> {
         }
   }
 
-  void deleteSpecificNote(int id){}
+  void deleteSpecificNote(int id)async{
+    emit(DeleteNoteLoading());
+    try{
+      await DatabaseHelper.deleteData(id);
+      emit(DeleteNoteSuccessfully());
+    }
+    catch(error){
+      emit(DeleteNoteWithError());
+    }
+  }
 
   void insertNewNote(NoteModel note){}
 

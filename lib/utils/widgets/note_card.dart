@@ -94,7 +94,9 @@ class _NoteCardState extends State<NoteCard> {
                 ),
               ),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  DatabaseCubit.get(context).deleteSpecificNote(widget.note.id!);
+                },
                 child: Container(
                   width: 50,
                   height: 50,

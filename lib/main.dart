@@ -7,6 +7,7 @@ import 'package:it_sharks_first_app/screens/home_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // intialize some code natively
   await DatabaseHelper.initializeDatabase();
+
   /*  //1 - get the specific query
     // هجيب الrow اللي انا محتاجه يتعدل
     Map<String ,dynamic> query1 = await DatabaseHelper.getSpecificRow(1);

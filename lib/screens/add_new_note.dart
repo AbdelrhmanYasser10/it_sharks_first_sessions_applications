@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:it_sharks_first_app/cubit/database_cubit.dart';
+import 'package:it_sharks_first_app/model/note_model.dart';
 
 import '../utils/widgets/my_textformfield.dart';
 
@@ -49,19 +52,41 @@ class _AddNewNoteState extends State<AddNewNote> {
               ),
               controller: _dateController,
             ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(double.infinity, 55),
-                  backgroundColor: Colors.red),
-              onPressed: () {},
-              child: const Text(
-                "+Add",
-                style: TextStyle(
-                  fontSize: 22.0,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+            BlocConsumer<DatabaseCubit,DatabaseState>(
+              listener: (context, state) {
+                if(state is InsertNoteSuccessfully){
+                  DatabaseCubit.get(context).getAllData();
+                  Navigator.pop(context);
+                }
+              },
+              builder: (context, state) {
+                var cubit  = DatabaseCubit.get(context);
+                return state is InsertNoteLoading ? const Center(
+                  child:CircularProgressIndicator()
+                ):ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      minimumSize: const Size(double.infinity, 55),
+                      backgroundColor: Colors.red),
+                  onPressed: () {
+                    NoteModel note = NoteModel(
+                        title: _titleController.text,
+                        desc: _descriptionController.text,
+                        date: _dateController.text,
+                        status: 0,
+                    );
+                    cubit.insertNewNote(note);
+                  },
+
+                  child: const Text(
+                    "+Add",
+                    style: TextStyle(
+                      fontSize: 22.0,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                );
+              },
             ),
           ],
         ),

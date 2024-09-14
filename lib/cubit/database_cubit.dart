@@ -52,7 +52,16 @@ class DatabaseCubit extends Cubit<DatabaseState> {
     }
   }
 
-  void insertNewNote(NoteModel note){}
+  void insertNewNote(NoteModel note)async{
+    emit(InsertNoteLoading());
+    try{
+      await DatabaseHelper.insertNewRow(note.toMap());
+      emit(InsertNoteSuccessfully());
+    }
+        catch(error){
+      emit(InsertNoteWithError());
+        }
+  }
 
   void getNote(int id){}
 

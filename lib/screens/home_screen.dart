@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:it_sharks_first_app/screens/post_screen.dart';
+import 'package:it_sharks_first_app/shared/cubits/comments_cubit/comments_cubit.dart';
 import 'package:it_sharks_first_app/shared/cubits/posts_cubit/posts_cubit.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -48,6 +49,7 @@ class HomeScreen extends StatelessWidget {
                   return GestureDetector(
                     onTap: () {
                       cubit.getSpecificPostWithId(cubit.allPosts[index].id!);
+                      CommentsCubit.get(context).getAllComments(cubit.allPosts[index].id!);
                       Navigator.push(
                         context,
                         MaterialPageRoute(

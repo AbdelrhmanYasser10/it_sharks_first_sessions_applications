@@ -11,3 +11,11 @@ class GetAllPostsWithError extends PostsState{
   final String message;
   GetAllPostsWithError({required this.message});
 }
+
+
+class GetSpecificPostLoading extends PostsState{}
+class GetSpecificPostSuccessfully extends PostsState{}
+class GetSpecificPostWithError extends PostsState{
+final String message;
+GetSpecificPostWithError({required this.message});
+}

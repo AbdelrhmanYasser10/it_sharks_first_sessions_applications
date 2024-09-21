@@ -13,6 +13,7 @@ class PostsCubit extends Cubit<PostsState> {
   PostsCubit() : super(PostsInitial());
 static PostsCubit get(context)=>BlocProvider.of(context);
   List<PostsModel> allPosts = [];
+  PostsModel? post;
 
   void getAllPosts()async{
     emit(GetAllPostsLoading());
@@ -36,4 +37,21 @@ static PostsCubit get(context)=>BlocProvider.of(context);
     }
   }
 
+  void getSpecificPostWithId(int id) async{
+    emit(GetSpecificPostLoading());
+    try{
+      Response response = await DioHelper.getRequest(
+          endPoint: "$POSTS/$id",
+      );
+      if(response.statusCode == 200){
+        post = PostsModel.fromJson(response.data);
+        emit(GetSpecificPostSuccessfully());
+      }
+      else{
+        emit(GetSpecificPostWithError(message: "Server Error"));
+      }
+    }catch(error){
+      emit(GetSpecificPostWithError(message: "Internet Connection Error"));
+    }
+  }
 }

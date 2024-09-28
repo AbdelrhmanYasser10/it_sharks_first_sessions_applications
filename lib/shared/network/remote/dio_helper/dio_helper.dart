@@ -6,7 +6,7 @@ abstract class DioHelper{
   static Future<void> initializeDio()async{
     _dio = Dio(
       BaseOptions(
-        baseUrl: "https://jsonplaceholder.typicode.com/",
+        baseUrl: "https://newsapi.org/",
         receiveDataWhenStatusError: true,
         connectTimeout: const Duration(seconds: 20),
         validateStatus: (status) {
@@ -18,9 +18,10 @@ abstract class DioHelper{
 
   //GET
   static Future<Response> getRequest({
-  required String endPoint
+  required String endPoint,
+  Map<String,dynamic>? queryParameters,
 })async{
-    return await _dio!.get(endPoint);
+    return await _dio!.get(endPoint,queryParameters: queryParameters);
   }
 
   //POST

@@ -1,5 +1,2 @@
-const POSTS = "posts";
-
-/*
-const String POST; // compile time
-late final String COMMENTS; // run time constant value*/
+const EVERYTHING ="/v2/everything";
+const TOPHEADLINES = "/v2/top-headlines";

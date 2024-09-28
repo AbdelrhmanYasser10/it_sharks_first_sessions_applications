@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:it_sharks_first_app/screens/home_screen.dart';
-import 'package:it_sharks_first_app/shared/cubits/comments_cubit/comments_cubit.dart';
-import 'package:it_sharks_first_app/shared/cubits/posts_cubit/posts_cubit.dart';
+import 'package:it_sharks_first_app/shared/cubit/app_cubit.dart';
 import 'package:it_sharks_first_app/shared/network/remote/dio_helper/dio_helper.dart';
+
+import 'layout/main_layout.dart';
 
 
 void main() async {
@@ -17,18 +17,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-        create: (context) => PostsCubit()..getAllPosts(),
-        ),
-        BlocProvider(
-            create: (context) => CommentsCubit(),
-        ),
-      ],
+    return BlocProvider(
+      create: (context) => AppCubit()..getHomeData(),
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: HomeScreen(),
+        home: MainLayout(),
       ),
     );
   }

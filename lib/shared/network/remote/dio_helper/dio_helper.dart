@@ -6,7 +6,7 @@ abstract class DioHelper{
   static Future<void> initializeDio()async{
     _dio = Dio(
       BaseOptions(
-        baseUrl: "https://newsapi.org/",
+        baseUrl: "https://student.valuxapps.com/api/",
         receiveDataWhenStatusError: true,
         connectTimeout: const Duration(seconds: 20),
         validateStatus: (status) {

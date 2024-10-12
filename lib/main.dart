@@ -1,30 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:it_sharks_first_app/shared/cubit/app_cubit.dart';
+import 'package:it_sharks_first_app/layout/main_layout.dart';
+import 'package:it_sharks_first_app/screens/login_screen.dart';
+import 'package:it_sharks_first_app/shared/cubit/auth_cubit/auth_cubit.dart';
+import 'package:it_sharks_first_app/shared/network/local/cache_helper/cache_helper.dart';
 import 'package:it_sharks_first_app/shared/network/remote/dio_helper/dio_helper.dart';
-
-import 'layout/main_layout.dart';
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // initialize some code natively
   await DioHelper.initializeDio();
-  runApp(const MyApp());
+  await SharedPreferencesHelper.init();
+  runApp(
+    MyApp(
+      hasUser: SharedPreferencesHelper.getData(key: "token") != null,
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final bool hasUser;
+  const MyApp({super.key, required this.hasUser});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AppCubit()..getHomeData(),
-      child: const MaterialApp(
+      create: (context) => AuthCubit(),
+      child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: MainLayout(),
+        home: hasUser ? MainLayout() : LoginScreen(),
       ),
     );
   }
 }
-
-

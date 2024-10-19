@@ -49,6 +49,8 @@ dependencies:
   firebase_storage: ^12.3.3
   image_picker: ^1.1.2
   image_cropper: ^8.0.2
+  awesome_snackbar_content: ^0.1.4
+  loading_indicator: ^3.1.1
 
 dev_dependencies:
   flutter_test:

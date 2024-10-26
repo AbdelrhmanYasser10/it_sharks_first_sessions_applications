@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:it_sharks_first_app/screens/home_screen.dart';
 import 'package:it_sharks_first_app/screens/register.dart';
 import 'package:it_sharks_first_app/shared/cubit/auth_cubit.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 
 import '../shared/widgets/my_text_form_field.dart';
-
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -50,8 +50,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       prefixIcon: const Icon(
                         Icons.email_outlined,
                       ),
-                      validator: (p0) {},
-
+                      validator: (p0) {
+                        return null;
+                      },
                       hintTxt: "E-mail",
                     ),
                     const SizedBox(
@@ -62,7 +63,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       prefixIcon: const Icon(
                         Icons.lock_outlined,
                       ),
-                      validator: (p0) {},
+                      validator: (p0) {
+                        return null;
+                      },
                       isPassword: true,
                       hintTxt: "Password",
                     ),
@@ -71,17 +74,22 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     BlocConsumer<AuthCubit, AuthState>(
                       listener: (context, state) {
+                        if (state is LoginSuccess) {
+                          Navigator.pushReplacement(context,
+                              MaterialPageRoute(builder: (_) => HomeScreen()));
+                        }
                       },
                       builder: (context, state) {
                         var cubit = AuthCubit.get(context);
-                        if(state is LoginLoading){
+                        if (state is LoginLoading) {
                           const SizedBox(
                             width: 20,
                             height: 20,
                             child: Center(
-                              child:  LoadingIndicator(
+                              child: LoadingIndicator(
                                 indicatorType: Indicator.ballRotateChase,
                                 colors: [Colors.black],
+
                                 /// Required, The loading type of the widget
                               ),
                             ),
@@ -91,7 +99,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           onTap: () {
                             if (_formKey.currentState!.validate()) {
                               cubit.login(
-                                  email: _emailController.text,
+                                email: _emailController.text,
                                 password: _passwordController.text,
                               );
                             }
@@ -103,10 +111,10 @@ class _LoginScreenState extends State<LoginScreen> {
                               color: Colors.black,
                               borderRadius: BorderRadius.circular(12),
                             ),
-                            child: Center(
+                            child: const Center(
                               child: Text(
                                 "Login",
-                                style: const TextStyle(
+                                style: TextStyle(
                                     fontSize: 16.0,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white),

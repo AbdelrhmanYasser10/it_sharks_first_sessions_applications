@@ -1,4 +1,3 @@
-import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,12 +21,16 @@ class AppCubit extends Cubit<AppState> {
     _database.collection("users").snapshots().listen((event) {
       allUsers = [];
       for (var element in event.docs) {
+        print(element.data());
         if (element.id != _auth.currentUser!.uid) {
           UserModel user = UserModel.fromJson(element.data());
           allUsers.add(user);
         }
       }
       emit(GetAllContactsSuccessfully());
+    }).onError((erro) {
+      print("here");
+      print(erro);
     });
   }
 
@@ -40,15 +43,16 @@ class AppCubit extends Cubit<AppState> {
         .doc(myId)
         .collection("chats")
         .doc(recId)
-        .collection("messages")
+        .collection("message")
         .orderBy("time")
         .snapshots()
         .listen((event) {
       allMessages = [];
       for (var element in event.docs) {
+        print(element.data());
         allMessages.add(MessageModel.fromJson(element.data()));
       }
-      emit(GetAllContactsSuccessfully());
+      emit(GetAllMessagesSuccessfully());
     });
   }
 

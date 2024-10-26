@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+import 'package:it_sharks_first_app/screens/home_screen.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 
 import '../shared/cubit/auth_cubit.dart';
@@ -35,6 +36,12 @@ class _RegisterState extends State<Register> {
               if (state is PickedImageSuccessfully) {
                 AuthCubit.get(context).cropImage();
               }
+              if (state is RegisterSuccess) {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (_)=>const HomeScreen())
+                );
+              }
             },
             builder: (context, state) {
               var cubit = AuthCubit.get(context);
@@ -55,7 +62,7 @@ class _RegisterState extends State<Register> {
                       ),
                       if (cubit.finalImage != null)
                         Stack(children: [
-                           SizedBox(
+                          SizedBox(
                             height: 150,
                             width: 150,
                             child: CircleAvatar(
@@ -136,7 +143,7 @@ class _RegisterState extends State<Register> {
                           }
                           final bool emailValid = RegExp(
                                   r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                              .hasMatch(value!);
+                              .hasMatch(value);
                           if (!emailValid) {
                             return "Enter a valid email";
                           }
@@ -187,66 +194,67 @@ class _RegisterState extends State<Register> {
                       const SizedBox(
                         height: 70.0,
                       ),
-                      state is RegisterLoading ?const SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: Center(
-                          child:  LoadingIndicator(
-                              indicatorType: Indicator.ballRotateChase,
-                            colors: [Colors.black],
-                            /// Required, The loading type of the widget
-                          ),
-                        ),
-                      ) : GestureDetector(
-                        onTap: () {
-                          if (_formKey.currentState!.validate()) {
-                            if(cubit.finalImage != null){
-                              cubit.register(
-                                  email: _emailController.text,
-                                  username: _userNameController.text,
-                                  password: _passwordController.text,
-                              );
-                            }
-                            else{
-                              const snackBar = SnackBar(
-                                /// need to set following properties for best effect of awesome_snackbar_content
-                                elevation: 0,
-                                behavior: SnackBarBehavior.floating,
-                                backgroundColor: Colors.transparent,
-                                content: AwesomeSnackbarContent(
-                                  title: 'Image Required',
-                                  message:
-                                  'You Must add image',
+                      state is RegisterLoading
+                          ? const SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: Center(
+                                child: LoadingIndicator(
+                                  indicatorType: Indicator.ballRotateChase,
+                                  colors: [Colors.black],
 
-                                  /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
-                                  contentType: ContentType.failure,
+                                  /// Required, The loading type of the widget
                                 ),
-                              );
+                              ),
+                            )
+                          : GestureDetector(
+                              onTap: () {
+                                if (_formKey.currentState!.validate()) {
+                                  if (cubit.finalImage != null) {
+                                    cubit.register(
+                                      email: _emailController.text,
+                                      username: _userNameController.text,
+                                      password: _passwordController.text,
+                                    );
+                                  } else {
+                                    const snackBar = SnackBar(
+                                      /// need to set following properties for best effect of awesome_snackbar_content
+                                      elevation: 0,
+                                      behavior: SnackBarBehavior.floating,
+                                      backgroundColor: Colors.transparent,
+                                      content: AwesomeSnackbarContent(
+                                        title: 'Image Required',
+                                        message: 'You Must add image',
 
-                              ScaffoldMessenger.of(context)
-                                ..hideCurrentSnackBar()
-                                ..showSnackBar(snackBar);
-                            }
-                          }
-                        },
-                        child: Container(
-                          width: double.infinity,
-                          height: 55,
-                          decoration: BoxDecoration(
-                            color: Colors.black,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: const Center(
-                            child: Text(
-                              "Register",
-                              style: TextStyle(
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
+                                        /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+                                        contentType: ContentType.failure,
+                                      ),
+                                    );
+
+                                    ScaffoldMessenger.of(context)
+                                      ..hideCurrentSnackBar()
+                                      ..showSnackBar(snackBar);
+                                  }
+                                }
+                              },
+                              child: Container(
+                                width: double.infinity,
+                                height: 55,
+                                decoration: BoxDecoration(
+                                  color: Colors.black,
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: const Center(
+                                  child: Text(
+                                    "Register",
+                                    style: TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [

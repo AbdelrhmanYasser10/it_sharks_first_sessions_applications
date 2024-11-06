@@ -1,10 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:it_sharks_first_app/models/geocoding_model.dart';
 import 'package:it_sharks_first_app/models/message_model.dart';
+import 'package:it_sharks_first_app/shared/network/remote/endpoints.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:meta/meta.dart';
 
 import '../../../models/userModel.dart';
+import '../../network/remote/dio_helper.dart';
 
 part 'app_state.dart';
 
@@ -15,7 +19,7 @@ class AppCubit extends Cubit<AppState> {
   final _database = FirebaseFirestore.instance;
   final _auth = FirebaseAuth.instance;
   List<UserModel> allUsers = [];
-
+  GeocodingModel? address;
   void getAllContacts() {
     emit(GetAllContactsLoading());
     _database.collection("users").snapshots().listen((event) {
@@ -82,6 +86,32 @@ class AppCubit extends Cubit<AppState> {
           .then((value) {
         emit(SendMessageSuccessfully());
       });
+    });
+  }
+
+  void getAddress(LatLng addressLatLng) {
+    emit(GetAddressLoading());
+    DioHelper.getRequest(
+        endPoint: REVERSEGEOCODING,
+      queryParameters: {
+          "latitude":addressLatLng.latitude,
+          "longitude":addressLatLng.longitude,
+        "localityLanguage":"en",
+      }
+    ).then((value){
+      // Server Side
+      if(value.statusCode != 200){
+        emit(GetAddressWithError(message: value.data["description"]));
+      }
+      else{
+        //https://maps.google.com/?q=lat,long
+        address = GeocodingModel.fromJson(value.data);
+        emit(GetAddressSuccessfully());
+      }
+    }).catchError((error){
+      // Client Side
+      emit(GetAddressWithError(message: "Error, Check your address again"));
+
     });
   }
 }

@@ -5,6 +5,7 @@ import 'package:it_sharks_first_app/screens/home_screen.dart';
 import 'package:it_sharks_first_app/screens/login.dart';
 import 'package:it_sharks_first_app/shared/cubit/app_cubit/app_cubit.dart';
 import 'package:it_sharks_first_app/shared/cubit/auth_cubit.dart';
+import 'package:it_sharks_first_app/shared/network/remote/dio_helper.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -13,6 +14,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await DioHelper.initializeDio();
   runApp(
     const MyApp(),
   );

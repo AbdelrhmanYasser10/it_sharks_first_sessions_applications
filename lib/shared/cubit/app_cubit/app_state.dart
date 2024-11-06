@@ -13,3 +13,10 @@ final class GetAllMessagesSuccessfully extends AppState {}
 
 final class SendMessageSuccessfully extends AppState {}
 
+final class GetAddressLoading extends AppState {}
+final class GetAddressSuccessfully extends AppState {}
+final class GetAddressWithError extends AppState {
+  final String message;
+  GetAddressWithError({required this.message});
+}
+

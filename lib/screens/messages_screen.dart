@@ -31,7 +31,21 @@ class _MessagesScreenState extends State<MessagesScreen> {
     return Builder(builder: (context) {
       AppCubit.get(context).getAllMessage(widget.reciverUser.userId);
       return BlocConsumer<AppCubit, AppState>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          var cubit = AppCubit.get(context);
+          if (state is GetAddressSuccessfully) {
+            _controller.text =
+                "${cubit.address!.countryName},${cubit.address!.city},${cubit.address!.locality}";
+          }
+          if (state is GetAddressWithError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.message),
+                backgroundColor: Colors.red,
+              ),
+            );
+          }
+        },
         builder: (context, state) {
           var cubit = AppCubit.get(context);
           return Scaffold(
@@ -100,28 +114,31 @@ class _MessagesScreenState extends State<MessagesScreen> {
                               enabledBorder: InputBorder.none,
                               disabledBorder: InputBorder.none,
                               focusedBorder: InputBorder.none,
-                              suffixIcon:IconButton(
-                                onPressed: ()async{
-                                  if(await _handleLocationPermission()){
-                                    Position currLocation = await Geolocator.getCurrentPosition();
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) {
-                                            return MapScreen(
-                                              myLocation: LatLng(currLocation.latitude,currLocation.longitude ),
-                                            );
-                                          },
-                                        ),
-                                    );
-                                  }
-                                  else{
+                              suffixIcon: IconButton(
+                                onPressed: () async {
+                                  if (await _handleLocationPermission()) {
+                                    Position currLocation =
+                                        await Geolocator.getCurrentPosition();
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) {
                                           return MapScreen(
-                                            myLocation: LatLng(30.3333,31.3333),
+                                            myLocation: LatLng(
+                                                currLocation.latitude,
+                                                currLocation.longitude),
+                                          );
+                                        },
+                                      ),
+                                    );
+                                  } else {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) {
+                                          return MapScreen(
+                                            myLocation:
+                                                LatLng(30.3333, 31.3333),
                                           );
                                         },
                                       ),
@@ -165,6 +182,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
       );
     });
   }
+
   Future<bool> _handleLocationPermission() async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -172,7 +190,8 @@ class _MessagesScreenState extends State<MessagesScreen> {
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text('Location services are disabled. Please enable the services')));
+          content: Text(
+              'Location services are disabled. Please enable the services')));
       return false;
     }
     permission = await Geolocator.checkPermission();
@@ -186,7 +205,8 @@ class _MessagesScreenState extends State<MessagesScreen> {
     }
     if (permission == LocationPermission.deniedForever) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text('Location permissions are permanently denied, we cannot request permissions.')));
+          content: Text(
+              'Location permissions are permanently denied, we cannot request permissions.')));
       return false;
     }
     return true;
